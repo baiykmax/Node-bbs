@@ -1,0 +1,69 @@
+{% extends "../base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block main %}
+
+{% if (flash | length) > 0 %}
+<p>{{ flash.message }}</p>
+{% endif %}
+
+<div id='sidebar'>
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>关于</span>
+        </div>
+        <div class='inner'>
+            <p>bbs club：Node学习</p>
+
+            <p>在这里你可以：</p>
+            <ul>
+                <li>向别人提出你遇到的问题</li>
+                <li>帮助遇到问题的人</li>
+                <li>分享自己的知识</li>
+                <li>和其它人一起进步</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id='content'>
+    <div class='panel'>
+        <div class='header'>
+            <ul class='breadcrumb'>
+                <li><a href='/'>主页</a><span class='divider'>/</span></li>
+                <li class='active'>登录</li>
+            </ul>
+        </div>
+        <div class='inner'>
+
+            <form id='signin_form' class='form-horizontal' action='/login' method='post'>
+                <div class='control-group'>
+                    <label class='control-label' >用户名</label>
+
+                    <div class='controls'>
+                        <input class='input-xlarge' name='username' size='30' type='text'/>
+                    </div>
+                </div>
+                <div class='control-group'>
+                    <label class='control-label'>密码</label>
+
+                    <div class='controls'>
+                        <input class='input-xlarge' name='password' size='30' type='password'/>
+                    </div>
+                </div>
+
+                <div class='form-actions'>
+                    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                    <input type='submit' class='span-primary' value='登录'/>
+                    <a href="/register">
+                    <span class="span-info">
+                        注册
+                    </span>
+                    </a>
+                    <a id="forgot_password" href='#'>忘记密码了?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

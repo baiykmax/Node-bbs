@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <title >{% block title %}{% endblock %} - bbs club</title>
+    <link rel="icon" href="/static/img/favicon.jpg" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link href="//o4j806krb.qnssl.com/public/stylesheets/index.min.9d1ebdbb.min.css" rel="stylesheet" media="all" />
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    {% endblock %}
+
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class='navbar'>
+    {% block navbar %}
+    <div class='navbar-inner'>
+
+        <div class='container'>
+
+            <form id='search_form' class='navbar-search' action="/search">
+                <input type='text' id='q' name='q' class='search-query span3' value=''/>
+            </form>
+
+            <ul class='nav pull-right'>
+
+                <li><a href='/topic'>首页</a></li>
+
+                {% if user.id != undefined %}
+                {% set cls1 = 'hide' %}
+                {% set cls2 = '' %}
+                {% else %}
+                {% set cls1 = '' %}
+                {% set cls2 = 'hide' %}
+                {% endif %}
+
+                <li class="{{ cls1 }}"><a href='/register'>注册</a></li>
+
+                <li class="{{ cls1 }}"><a href='/login'>登录</a></li>
+
+                <li class="{{ cls2 }}"><a href="/mail">私信</a></li>
+
+                <li class="{{ cls2 }}"><a href="/user/setting/">设置</a></li>
+
+                {% if user.role == 1 %}
+                <li><a href="/board">板块管理</a></li>
+                {% endif %}
+
+                <li class="{{ cls2 }}"><a href="/logout">注销</a></li>
+
+            </ul>
+        </div>
+    </div>
+    {% endblock %}
+</div>
+<div id="main">
+    {% block main %}
+
+    <div id="sidebar">
+
+        <div class='panel'>
+
+            <div class='header'>
+                <span class='col_fade'>个人信息</span>
+            </div>
+            <div class='inner'>
+                <div class='user_card'>
+                    <div>
+                        <a class='user_avatar' href="/user/{{ user.username }}">
+                            <img src="/user/avatar/{{ user.avatar }}?v=3&amp;s=120" title="{{ user.username }}"/>
+                        </a>
+                        <span class='user_name'><a class='dark' href="/user/{{ user.username }}#">{{ user.username }}</a></span>
+
+                        <div class='board clearfix'>
+                            <div class='floor'>
+                                <span class='big'>积分: 722 </span>
+                            </div>
+                        </div>
+                        <div class="space clearfix"></div>
+                        <span class="signature">
+                            “
+                                {{ user.note }}
+                            ”
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+            <div class="inner">
+                <a href="/topic/new" class="create_topic_btn">
+                    <span class="span-success">发布话题</span>
+                </a>
+            </div>
+        </div>
+
+        <div class='panel'>
+            <div class='header'>
+                <span class='col_fade'>友情社区</span>
+            </div>
+            <div class='inner'>
+                <ol class="friendship-community">
+                    <li>
+                        <div class='board clearfix'>
+                            <div class='floor'>
+                                <span class='big' style="text-shadow: 5px 5px 5px orange;font-size:150%"> cocode </span>
+                            </div>
+                        </div>
+                        <a href="http://cocode.cc/" target="_blank">
+                            <img src="http://cocode.cc/uploads/default/original/1X/a9b203ddd744a098eaa788f06272265574c75644.png">
+                        </a>
+                    </li>
+                    <div class="sep10"></div>
+                </ol>
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock %}
+</div>
+<div id='backtotop'>{% block backtotop %}{% endblock %}回到顶部</div>
+<div id='footer'>
+    {% block footer %}
+    <div id='footer_main'>
+        <div class="links">
+            <a class='dark' href='#'>源码地址</a>
+        </div>
+    </div>
+    {% endblock %}
+</div>
+
+{% block script %}
+{% endblock %}
+
+</body>
+</html>

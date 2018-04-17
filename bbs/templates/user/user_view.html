@@ -1,0 +1,235 @@
+{% extends "../base.html" %}
+{% block title %}Profile{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block main %}
+<div id='sidebar'>
+
+    <div class='panel'>
+
+        <div class='header'>
+            <span class='col_fade'>个人信息</span>
+        </div>
+        <div class='inner'>
+            <div class='user_card'>
+                <div>
+                    <a class='user_avatar' href="/user/{{ u.username }}">
+                        <img src="/user/avatar/{{ u.avatar }}?v=3&amp;s=120" title="{{ u.username }}"/>
+                    </a>
+                    <span class='user_name'><a class='dark' href="/user/{{ u.username }}#">{{ u.username }}</a></span>
+
+                    <div class='board clearfix'>
+                        <div class='floor'>
+                            <span class='big'>积分: 3990 </span>
+                        </div>
+                    </div>
+                    <div class="space clearfix"></div>
+                    <span class="signature">
+                            “
+                                {{ u.note }}
+                            ”
+                        </span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>友情社区</span>
+        </div>
+        <div class='inner'>
+            <ol class="friendship-community">
+                <li>
+                    <div class='board clearfix'>
+                        <div class='floor'>
+                            <span class='big' style="text-shadow: 5px 5px 5px orange;font-size:150%"> cocode </span>
+                        </div>
+                    </div>
+                    <a href="http://cocode.cc/" target="_blank">
+                        <img src="http://cocode.cc/uploads/default/original/1X/a9b203ddd744a098eaa788f06272265574c75644.png">
+                    </a>
+                </li>
+                <div class="sep10"></div>
+            </ol>
+        </div>
+    </div>
+
+</div>
+
+<div id='content'>
+
+    <div class='panel'>
+        <div class='header'>
+            <ul class='breadcrumb'>
+                <li><a href="/topic">主页</a><span class='divider'>/</span></li>
+            </ul>
+        </div>
+        <div class='inner userinfo'>
+            <div class='user_big_avatar'>
+                <img src="/user/avatar/{{ u.avatar }}?v=3&amp;s=120" class="user_avatar"
+                     title="{{ u.username }}"/>
+            </div>
+
+            <a class='dark'>{{ u.username }}</a>
+
+            <div class='user_profile'>
+                <ul class='unstyled'>
+
+                    <li>
+                        <a class='dark' target='_blank'>
+                            <span class='big collect-topic-count'> {{ u.involvedTopicNumbers() }} </span>个话题参与
+                        </a>
+                    </li>
+
+                    <li>
+                        <i class="fa fa-lg fa-fw fa-home"></i>
+                        <a class='dark' href="https://github.com/baiykmax" target='_blank'>https://github.com/baiykmax</a>
+                    </li>
+
+
+                    <li>
+                        <i class="fa fa-lg fa-fw fa-map-marker"></i>
+                        <span class='dark'>无业游民 | 杭州</span>
+                    </li>
+
+
+                    <li>
+                        <i class="fa fa-lg fa-fw fa-github"></i>
+                        <a class='dark' href="https://github.com/baiykmax" target='_blank'>
+                            @baiykmax
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <i class="fa fa-lg fa-fw fa-twitter"></i>
+                        <a class='dark' href="https://weibo.com/baiyuekun24" target='_blank'>https://weibo.com/baiyuekun24</a>
+                    </li>
+
+                </ul>
+            </div>
+            <p class='col_fade'>注册时间 {{ u.created_time | formattedTimeAgo }} </p>
+
+        </div>
+    </div>
+
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>最近创建的话题</span>
+        </div>
+
+        {% if u.topics() %}
+
+        <div class='inner'>
+            <p>无话题</p>
+        </div>
+
+        {% else %}
+
+        {% for t in u.topics() %}
+        <div class='cell'>
+
+            <a class="user_avatar pull-left">
+                <img src='/user/avatar/{{ u.avatar }}?v=3&amp;s=120' class="user_avatar"
+                     title="{{ u.username }}"
+                />
+            </a>
+
+            <span class="reply_count pull-left">
+                        <span class="count_of_replies" title="回复数">
+                            {{ t.replies() | length }}
+                        </span>
+                    <span class="count_seperator">/</span>
+                        <span class="count_of_visits" title='点击数'>
+                            {{ t.views }}
+                        </span>
+                    </span>
+            <a class='last_time pull-right' href="/topic/detail/{{ t.id }}">
+                    <span class="last_active_time">
+                        {{ t.created_time | formattedTimeAgo }}
+                    </span>
+            </a>
+
+            <div class="topic_title_wrapper">
+
+                <a class='topic_title' href='/topic/detail/{{ t.id }}' title='{{ t.title }}'>
+                    {{ t.title }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+        <div class='cell more'>
+            <a class='dark' href="/user/{{ u.username }}/topics">查看更多»</a>
+        </div>
+
+    </div>
+
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>最近参与的话题</span>
+        </div>
+
+
+        {% if u.involvedTopics() %}
+
+        <div class='inner'>
+            <p>无话题</p>
+        </div>
+
+        {% else %}
+
+        {% for t in u.involvedTopics() %}
+        <div class='cell'>
+
+            <a class="user_avatar pull-left">
+                <img src='/user/avatar/{{ u.avatar }}?v=3&amp;s=120'
+                     title="{{ u.username }}"
+                />
+            </a>
+
+            <span class="reply_count pull-left">
+                <span class="count_of_replies" title="回复数">
+                {{ t.replies() | length }}
+                </span>
+                <span class="count_seperator">/</span>
+                <span class="count_of_visits" title='点击数'>
+                {{ t.views }}
+                </span>
+                </span>
+
+
+            <a class='last_time pull-right' href="/topic/detail/{{ t.id }}">
+                    <span class="last_active_time">
+                        {{ t.last_reply_time | formattedTimeAgo }}
+                    </span>
+            </a>
+
+
+            <div class="topic_title_wrapper">
+
+
+                <a class='topic_title' href='/topic/detail/{{ t.id }}' title='{{ t.title }}'>
+                    {{ t.title }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+
+        <div class='cell more'>
+            <a class='dark' href="/user/{{ u.username }}/replies">查看更多»</a>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

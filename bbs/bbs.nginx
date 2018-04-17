@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    location /static {
+        alias /var/www/pro/zoye/bbs/static;
+    }
+    location / {
+        proxy_pass http://0.0.0.0:2000;
+    }
+}

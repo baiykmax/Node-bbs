@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Mail{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block main %}
+{{ super() }}
+<div id='content'>
+    <div class='panel'>
+        <div class='header'>
+            <ul class='breadcrumb'>
+                <li><a href='/'>主页</a><span class='divider'>/</span></li>
+                <li class='active'>收到的消息</li>
+            </ul>
+        </div>
+        <div class='inner'>
+            {% if receivedMail == '' %}
+            <p>无消息</p>
+            {% else %}
+                {% for r in receivedMail%}
+                <a href="/mail/view/{{r.id }}?token={{ token }}"> {{ r.content }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>发送的信息</span>
+        </div>
+        <div class='inner'>
+            {% if sendMail == '' %}
+            <p>无消息</p>
+            {% else %}
+                {% for s in sendMail%}
+                <a href="/mail/view/{{s.id }}?token={{ token }}"> {{ s.content }}</a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class='panel'>
+        <div class='header'>
+            <span class='col_fade'>发消息</span>
+        </div>
+
+        <div class='inner'>
+            <form method="post" action="/mail/add">
+                <input type="text" name="to" placeholder="to_id">
+                <input type="text" name="title" placeholder="title">
+                <input type="text" name="content" placeholder="content">
+                <button type="submit">发送</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

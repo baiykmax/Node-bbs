@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Mail{% endblock %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block main %}
+{{ super() }}
+<div id='content'>
+    <div class='panel'>
+        <div class='header'>
+            <ul class='breadcrumb'>
+                <li><a href='/'>主页</a><span class='divider'>/</span></li>
+                <li class='active'>消息</li>
+            </ul>
+        </div>
+        <div class='inner'>
+            <p>发件人id： {{ mail.sender_id }}</p>
+            <p>标题: {{ mail.title }}</p>
+            <p>内容: {{ mail.content }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
