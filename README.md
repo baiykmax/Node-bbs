@@ -1,1 +1,1 @@
-#weibo
+#bbs
