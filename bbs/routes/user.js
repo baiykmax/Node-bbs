@@ -26,9 +26,13 @@ main.get('/:username', async (request, response) => {
     if (u === null) {
         return response.redirect('/topic')
     }
+    const involvedTopicNumbers = await u.involvedTopicNumbers()
+    const involvedTopics = await u.involvedTopics()
     const args = {
         u: u,
         user: u,
+        involvedTopicNumbers: involvedTopicNumbers,
+        involvedTopics: involvedTopics,
     }
     htmlResponse(response, 'user/user_view.html', args)
 })
@@ -39,9 +43,11 @@ main.get('/:username/topics', async (request, response) => {
     if (u === null) {
         return response.redirect('/topic')
     }
+    const involvedTopicNumbers = await u.involvedTopicNumbers()
     const args = {
         u: u,
         user: u,
+        involvedTopicNumbers: involvedTopicNumbers,
     }
     htmlResponse(response, 'user/user_all_topics.html', args)
 })
@@ -52,9 +58,11 @@ main.get('/:username/replies', async (request, response) => {
     if (u === null) {
         return response.redirect('/topic')
     }
+    const involvedTopicNumbers = await u.involvedTopicNumbers()
     const args = {
         u: u,
         user: u,
+        involvedTopicNumbers: involvedTopicNumbers,
     }
     htmlResponse(response, 'user/user_all_replies.html', args)
 })
@@ -64,9 +72,13 @@ main.get('/profile/:id', loginRequired, async (request, response) => {
     const user = await currentUser(request)
     const id = request.params.id
     const u = await User.get(id)
+    const involvedTopicNumbers = await u.involvedTopicNumbers()
+    const involvedTopics = await u.involvedTopics()
     const args = {
         u: u,
         user: user,
+        involvedTopicNumbers: involvedTopicNumbers,
+        involvedTopics: involvedTopics,
     }
     htmlResponse(response, 'user/user_view.html', args)
 })

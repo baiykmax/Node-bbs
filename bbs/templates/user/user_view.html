@@ -82,7 +82,7 @@
 
                     <li>
                         <a class='dark' target='_blank'>
-                            <span class='big collect-topic-count'> {{ u.involvedTopicNumbers() }} </span>个话题参与
+                            <span class='big collect-topic-count'> {{ involvedTopicNumbers }} </span>个话题参与
                         </a>
                     </li>
 
@@ -178,7 +178,7 @@
         </div>
 
 
-        {% if u.involvedTopics() %}
+        {% if involvedTopics %}
 
         <div class='inner'>
             <p>无话题</p>
@@ -186,7 +186,7 @@
 
         {% else %}
 
-        {% for t in u.involvedTopics() %}
+        {% for t in involvedTopics %}
         <div class='cell'>
 
             <a class="user_avatar pull-left">
