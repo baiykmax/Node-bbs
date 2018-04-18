@@ -3,6 +3,7 @@ uploads
 gua.log.txt
 config.js
 node_modules
+yarn-error.log
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
