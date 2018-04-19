@@ -1,7 +1,6 @@
 const express = require('express')
 // multer 是用来处理上传文件的模块
 const multer = require('multer')
-// 文件上传之后保存的路径, 这个路径希望做成可以配置的, 所以就写入到 config 中
 const { uploadPath } = require('../config')
 
 // 配置 multer 模块
@@ -9,6 +8,17 @@ const { uploadPath } = require('../config')
 const upload = multer({
     dest: uploadPath,
 })
+
+const topicDataList = async function (arr, limit=arr.length) {
+    const topics = []
+    for(let i = 0; i < arr.length; i++) {
+        let topic = arr[i]
+        let replies = await topic.replies()
+        topic['replies'] = replies
+        topics.push(topic)
+    }
+    return topics.slice(0, limit)
+}
 
 const User = require('../models/user')
 const { log } = require('../utils')
@@ -28,11 +38,16 @@ main.get('/:username', async (request, response) => {
     }
     const involvedTopicNumbers = await u.involvedTopicNumbers()
     const involvedTopics = await u.involvedTopics()
+    const involveTopics = await topicDataList(involvedTopics, 5)
+    //
+    const userTopics = await u.topics()
+    const topics = await topicDataList(userTopics, 5)
     const args = {
         u: u,
         user: u,
         involvedTopicNumbers: involvedTopicNumbers,
-        involvedTopics: involvedTopics,
+        involvedTopics: involveTopics,
+        userTopics: topics,
     }
     htmlResponse(response, 'user/user_view.html', args)
 })
@@ -44,10 +59,13 @@ main.get('/:username/topics', async (request, response) => {
         return response.redirect('/topic')
     }
     const involvedTopicNumbers = await u.involvedTopicNumbers()
+    const userTopics = await u.topics()
+    const topics = await topicDataList(userTopics)
     const args = {
         u: u,
         user: u,
         involvedTopicNumbers: involvedTopicNumbers,
+        userTopics: topics,
     }
     htmlResponse(response, 'user/user_all_topics.html', args)
 })
@@ -59,10 +77,13 @@ main.get('/:username/replies', async (request, response) => {
         return response.redirect('/topic')
     }
     const involvedTopicNumbers = await u.involvedTopicNumbers()
+    const involvedTopics = await u.involvedTopics()
+    const involveTopics = await topicDataList(involvedTopics)
     const args = {
         u: u,
         user: u,
         involvedTopicNumbers: involvedTopicNumbers,
+        involvedTopics: involveTopics,
     }
     htmlResponse(response, 'user/user_all_replies.html', args)
 })

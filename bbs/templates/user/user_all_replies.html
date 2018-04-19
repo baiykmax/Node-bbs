@@ -63,7 +63,7 @@
             <div class='header'>
                 <span class='col_fade'>{{ u.username }}参与的话题</span>
             </div>
-            {% if u.involvedTopics() %}
+            {% if involvedTopics === null %}
 
             <div class='inner'>
                 <p>无话题</p>
@@ -71,7 +71,7 @@
 
             {% else %}
 
-            {% for t in u.involvedTopics() %}
+            {% for t in involvedTopics %}
             <div class='cell'>
 
                 <a class="user_avatar pull-left">
@@ -82,7 +82,7 @@
 
                 <span class="reply_count pull-left">
                 <span class="count_of_replies" title="回复数">
-                {{ t.replies() | length }}
+                {{ t.replies | length }}
                 </span>
                 <span class="count_seperator">/</span>
                 <span class="count_of_visits" title='点击数'>

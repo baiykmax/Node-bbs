@@ -32,15 +32,15 @@
                 <div class="topic_list">
                     {% for t in topics %}
                     <div class="cell">
-                        <a class="user_avatar pull-left" href="/user/{{ t.owner().username }}">
-                            <img src="/user/avatar/{{ t.owner().avatar }}?v=4&amp;s=120"
-                                 title="t.owner().username"
+                        <a class="user_avatar pull-left" href="/user/{{ t.owner.username }}">
+                            <img src="/user/avatar/{{ t.owner.avatar }}?v=4&amp;s=120"
+                                 title="t.owner.username"
                             />
                         </a>
 
                         <span class="reply_count pull-left">
                             <span class="count_of_replies" title="回复数">
-                             {{ t.replies() | length }}
+                             {{ t.replies | length }}
                             </span>
                             <span class="count_seperator">/</span>
                             <span class="count_of_visits" title='点击数'>
@@ -48,13 +48,13 @@
                             </span>
                         </span>
 
-                        {% if t.lastReplyUser().avatar == undefined %}
+                        {% if t.lastReplyUser.avatar == undefined %}
                         {% set avatar = 'default.gif' %}
                         {% else %}
-                        {% set avatar = t.lastReplyUser().avatar %}
+                        {% set avatar = t.lastReplyUser.avatar %}
                         {% endif %}
 
-                        <a class='last_time pull-right' href="/user/{{ t.lastReplyUser().username }}">
+                        <a class='last_time pull-right' href="/user/{{ t.lastReplyUser.username }}">
                             <img class="user_small_avatar"
                                  src="/user/avatar/{{ avatar }}?v=4&amp;s=120"
                             />
@@ -64,7 +64,7 @@
                         </a>
 
                         <div class="topic_title_wrapper">
-                            <span class="topiclist-tab">{{ t.board().title }}</span>
+                            <span class="topiclist-tab">{{ t.board.title }}</span>
                             <a class="topic_title" href="/topic/detail/{{ t.id }}">
                                 {{ t.title }}
                             </a>

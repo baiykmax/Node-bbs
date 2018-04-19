@@ -123,7 +123,7 @@
             <span class='col_fade'>最近创建的话题</span>
         </div>
 
-        {% if u.topics() %}
+        {% if userTopics === null %}
 
         <div class='inner'>
             <p>无话题</p>
@@ -131,7 +131,7 @@
 
         {% else %}
 
-        {% for t in u.topics() %}
+        {% for t in userTopics %}
         <div class='cell'>
 
             <a class="user_avatar pull-left">
@@ -142,7 +142,7 @@
 
             <span class="reply_count pull-left">
                         <span class="count_of_replies" title="回复数">
-                            {{ t.replies() | length }}
+                            {{ t.replies | length }}
                         </span>
                     <span class="count_seperator">/</span>
                         <span class="count_of_visits" title='点击数'>
@@ -178,7 +178,7 @@
         </div>
 
 
-        {% if involvedTopics %}
+        {% if involvedTopics === null %}
 
         <div class='inner'>
             <p>无话题</p>
@@ -197,7 +197,7 @@
 
             <span class="reply_count pull-left">
                 <span class="count_of_replies" title="回复数">
-                {{ t.replies() | length }}
+                {{ t.replies | length }}
                 </span>
                 <span class="count_seperator">/</span>
                 <span class="count_of_visits" title='点击数'>

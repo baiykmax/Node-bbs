@@ -82,7 +82,7 @@ class UserStore extends Model {
         const userId = this.id
         const replies = await Reply.findAll('user_id', userId)
         const topics = []
-        Object.keys(replies).forEach(r => topics.push(r.topic_id))
+        replies.forEach(r => topics.push(r.topic_id))
         return topics.length
     }
 
@@ -92,10 +92,14 @@ class UserStore extends Model {
         const userId = this.id
         const replies = await Reply.findAll('user_id', userId)
         let topicList = []
-        Object.values(replies).forEach(r => topicList.push(r.topic_id))
+        replies.forEach(r => topicList.push(r.topic_id))
         topicList = [...new Set(topicList)]
         topicList.sort((a, b) => b - a)
-        const topics = await topicList.map(tid => Topic.get(tid))
+        const topics = []
+        for(let i = 0; i < topicList.length; i++) {
+            let topic = await Topic.get(topicList[i])
+            topics.push(topic)
+        }
         return topics
     }
 }
