@@ -22,7 +22,7 @@ const configureApp = () => {
 
     app.use(cookieParser())
 
-    app.use(csrf({ cookie: true }))
+    // app.use(csrf({ cookie: true }))
 
     app.use(bodyParser.json())
 

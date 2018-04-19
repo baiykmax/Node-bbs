@@ -20,7 +20,6 @@ const currentUser = async (request) => {
 const loginRequired = async (request, response, next) => {
     const u = await currentUser(request)
     if (u.role === -1) {
-        log('登录检测: 没有登录', request.method)
         const baseUrl = '/login'
         if (request.method === 'POST') {
             response.redirect(baseUrl)

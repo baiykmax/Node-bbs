@@ -170,9 +170,8 @@
 
 {% block script %}
 <script>
-    (function () {
-        var md = new window.MarkdownIt();
-        var result = md.render($('.markdown-text'));
-    })();
+    var md = new markdownit();
+    var content = document.querySelector('.markdown-text').innerHTML;
+    document.querySelector('.topic_content').innerHTML = md.render(content)
 </script>
 {% endblock %}

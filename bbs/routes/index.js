@@ -4,8 +4,6 @@ const User = require('../models/user')
 const { log } = require('../utils')
 const {
     currentUser,
-    htmlResponse,
-    loginRequired
 } = require('./main')
 
 const router = express.Router()
@@ -13,11 +11,11 @@ const router = express.Router()
 router.get('/', async (request, response) => {
     const userList = await User.all()
     const u = await currentUser(request)
-    const token = request.csrfToken()
+    // const token = request.csrfToken()
     const args = {
         users: userList,
         user: u,
-        csrfToken: token
+        // csrfToken: token
     }
     response.render('index/index.html', args)
 })

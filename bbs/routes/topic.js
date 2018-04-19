@@ -81,7 +81,7 @@ topic.get('/detail/:id', async (request, response) => {
     htmlResponse(response, 'topic/detail.html', args)
 })
 
-topic.get('/new', async (request, response) => {
+topic.get('/new', loginRequired, async (request, response) => {
     const boards = await Board.all()
     const u = await currentUser(request)
     const args = {
@@ -93,6 +93,7 @@ topic.get('/new', async (request, response) => {
 
 topic.post('/add', loginRequired, async (request, response) => {
     const form = request.body
+    const u = await currentUser(request)
     const m = await Topic.create(form, {
         user_id: u.id,
     })
