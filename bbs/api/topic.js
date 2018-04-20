@@ -9,7 +9,6 @@ const router = express.Router()
 
 router.get('/all', (request, response) => {
     const ms = Model.all()
-    log('request headers', request.headers)
     const dict = {
         success: true,
         data: ms,
@@ -31,7 +30,6 @@ router.get('/detail/:id', (request, response) => {
 
 router.post('/add', (request, response) => {
     const form = request.body
-    console.log('debug body', form)
     const m = Model.create(form)
     const dict = {
         success: true,
