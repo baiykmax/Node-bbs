@@ -29,8 +29,23 @@ class Model extends mongoose.Model {
         return super.find()
     }
 
+    static async allSkip(offset=0, limit=15) {
+        let l = parseInt(limit)
+        let o = parseInt(offset) * l
+        return super.find().skip(o).limit(l)
+    }
+
     static async get(id) {
         return super.findById(id)
+    }
+
+    static async findSkip(key, value, offset=0, limit=15) {
+        const query = {
+            [key]: value,
+        }
+        let l = parseInt(limit)
+        let o = parseInt(offset) * l
+        return super.find(query).skip(o).limit(l).exec()
     }
 
     static async findBy(key, value) {

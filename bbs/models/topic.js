@@ -31,15 +31,17 @@ class TopicStore extends Model {
     static async detail(id) {
         const m = await Topic.get(id)
         m.views += 1
+        m.save()
         return m
     }
 
-    static async allList(board_id) {
+    static async allList(board_id, offset, limit) {
         let ms = []
         if (board_id === 'all' || board_id === '') {
-            ms = await Topic.all()
+            ms = await Topic.allSkip(offset, limit)
         } else {
-            ms =await Topic.findAll('board_id', board_id)
+            // ms = await Topic.findAll('board_id', board_id)
+            ms = await Topic.findSkip('board_id', board_id, offset, limit)
         }
         return ms
     }

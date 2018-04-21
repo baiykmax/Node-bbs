@@ -1,4 +1,5 @@
 const express = require('express')
+const _ = require('lodash');
 
 const Topic = require('../models/topic')
 const Board = require('../models/board')
@@ -17,7 +18,6 @@ const topicDataList = async function (arr, keyList) {
             let method = keyList[j]
             let data = await topic[method]()
             topic[keyList[j].toString()] = data
-            topics.push(topic)
         }
         topics.push(topic)
     }
@@ -29,29 +29,35 @@ const topic = express.Router()
 topic.get('/', async (request, response) => {
     const u = await currentUser(request)
     const board_id = request.query.board_id || ""
-    const ms = await Topic.allList(board_id)
+    const currentPage = request.query.page || "1"
+    const limit = 5
+    const offset = currentPage - 1 > 0 ? currentPage - 1 : 0
+    const ms = await Topic.allList(board_id, offset, limit)
     const ds = ['owner', 'lastReplyUser', 'board', 'replies']
     const topics = await topicDataList(ms, ds)
-    // const topics = []
-    // for(let i = 0; i < ms.length; i++) {
-    //     let topic = ms[i]
-    //     let owner = await topic.owner()
-    //     topic['owner'] = owner
-    //     let lastReplyUser = await topic.lastReplyUser()
-    //     topic['lastReplyUser'] = lastReplyUser
-    //     let board = await topic.board()
-    //     topic['board'] = board
-    //     let replies = await topic.replies()
-    //     topic['replies'] = replies
-    //     topics.push(topic)
-    // }
+    const allTopic = await Topic.all()
+    const allBoardTopic = await Topic.findAll('board_id', board_id)
+    const len = (board_id === "all" || board_id === "") ? allTopic.length : allBoardTopic.length
+    const pages= Math.ceil(len / limit)
+    const page_start = currentPage - 2 > 1 ? currentPage - 2 : 1
+    const page_end = page_start + 4 >= pages ? pages : page_start + 4
+    const frontPage = parseInt(currentPage) - 1
+    const nextPage = parseInt(currentPage) + 1
+    const range = _.range(page_start, page_end + 1)
     const boards = await Board.all()
     const args = {
         current_user: u,
         user: u,
-        topics: ms,
+        topics: topics,
         boards: boards,
         board_id: board_id,
+        current_page: currentPage,
+        pages: pages,
+        range: range,
+        page_start: page_start,
+        page_end: page_end,
+        frontPage: frontPage,
+        nextPage: nextPage,
     }
     htmlResponse(response, 'topic/index.html', args)
 })
