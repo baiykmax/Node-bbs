@@ -51,6 +51,14 @@ class TopicStore extends Model {
         return t
     }
 
+    static async noReplyTopic() {
+        const ms = await Topic.findAll('last_reply_user_id', null)
+        const random = Math.random() * ms.length
+        const index = Math.floor(random)
+        const m = ms[index]
+        return m
+    }
+
     async user() {
         const User = require('./user')
         const u = await User.get(this.user_id)

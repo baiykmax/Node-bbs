@@ -47,12 +47,21 @@
             <div class='inner'>
 
                 <ul class='unstyled'>
-
                     <li>
-                        <div><a class='dark topic_title' href="#"
-                                title="[eggjs-feed-05] Node 8 LTS + Egg 2.x 计划">[eggjs-feed-05] Node 8 LTS + Egg 2.x
-                            计划</a>
+                        {% if latestTopic === undefined %}
+                        <div>
+                            <span class='inner'>
+                                无
+                            </span>
                         </div>
+                        {% else %}
+                        <div>
+                            <a class='dark topic_title' href="/topic/detail/{{ latestTopic.id }}"
+                                title="{{ latestTopics.title }}">
+                                {{ latestTopic.title }}
+                            </a>
+                        </div>
+                        {% endif %}
                     </li>
 
                 </ul>
@@ -69,8 +78,8 @@
                 <ul class='unstyled'>
 
                     <li>
-                        <div><a class='dark topic_title' href="#"
-                                title="求分析一个神奇的 HTTP 跳转">求分析一个神奇的 HTTP 跳转</a>
+                        <div><a class='dark topic_title' href="/topic/detail/{{ noReplyTopic.id }}"
+                                title="{{ noReplyTopic.title }}">{{ noReplyTopic.title }}</a>
                         </div>
                     </li>
 
@@ -172,7 +181,7 @@
 <script>
     var md = new markdownit();
     var content = document.querySelector('.markdown-text').innerHTML;
-    document.querySelector('.topic_content').innerHTML = md.render(content)
+    document.querySelector('.topic_content').innerHTML = md.render(content);
     //
     $('.up_btn').click(function (e) {
         var $this = $(this);

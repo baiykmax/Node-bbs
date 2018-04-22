@@ -102,6 +102,13 @@ class UserStore extends Model {
         }
         return topics
     }
+
+    async latestTopics() {
+        const Topic = require('./topic')
+        const userId = this.id
+        const topics = await Topic.findAll('user_id', userId)
+        return topics.slice(topics.length - 1)[0]
+    }
 }
 
 userSchema.loadClass(UserStore)
