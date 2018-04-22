@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const Topic = require('../models/topic')
 const Board = require('../models/board')
+const Store = require('../models/store')
 const { log } = require('../utils')
 const {
     currentUser,
@@ -24,26 +25,49 @@ const topicDataList = async function (arr, keyList) {
     return topics
 }
 
-const topic = express.Router()
-
-topic.get('/', async (request, response) => {
-    const u = await currentUser(request)
-    const board_id = request.query.board_id || ""
-    const currentPage = request.query.page || "1"
+const topicPagination = async function (currentPage, board_id) {
     const limit = 5
     const offset = currentPage - 1 > 0 ? currentPage - 1 : 0
     const ms = await Topic.allList(board_id, offset, limit)
     const ds = ['owner', 'lastReplyUser', 'board', 'replies']
     const topics = await topicDataList(ms, ds)
-    const allTopic = await Topic.all()
-    const allBoardTopic = await Topic.findAll('board_id', board_id)
-    const len = (board_id === "all" || board_id === "") ? allTopic.length : allBoardTopic.length
+    const allTopicNums = await Store.allTopicNums()
+    const curBoardTopic = await Store.findBy('board_id', board_id)
+    const allBoardTopicNmus = curBoardTopic ? curBoardTopic.topic_nums : 0
+    const len = (board_id === "all" || board_id === "") ? allTopicNums : allBoardTopicNmus
     const pages= Math.ceil(len / limit)
     const page_start = currentPage - 2 > 1 ? currentPage - 2 : 1
     const page_end = page_start + 4 >= pages ? pages : page_start + 4
     const frontPage = parseInt(currentPage) - 1
     const nextPage = parseInt(currentPage) + 1
     const range = _.range(page_start, page_end + 1)
+    const paginationData = {
+        topics: topics,
+        pages: pages,
+        range: range,
+        page_start: page_start,
+        page_end: page_end,
+        frontPage: frontPage,
+        nextPage: nextPage,
+    }
+    return paginationData
+}
+
+const topic = express.Router()
+
+topic.get('/', async (request, response) => {
+    const u = await currentUser(request)
+    const board_id = request.query.board_id || ""
+    const currentPage = request.query.page || "1"
+    let {
+        topics,
+        pages,
+        range,
+        page_start,
+        page_end,
+        frontPage,
+        nextPage
+    } = await topicPagination(parseInt(currentPage), board_id)
     const boards = await Board.all()
     const args = {
         current_user: u,
@@ -103,6 +127,7 @@ topic.post('/add', loginRequired, async (request, response) => {
     const m = await Topic.create(form, {
         user_id: u.id,
     })
+    const s = await Store.detail(m.board_id)
     response.redirect('/topic')
 })
 

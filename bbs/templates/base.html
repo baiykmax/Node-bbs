@@ -45,7 +45,7 @@
 
                 <li class="{{ cls2 }}"><a href="/mail">私信</a></li>
 
-                <li class="{{ cls2 }}"><a href="/user/setting/">设置</a></li>
+                <li class="{{ cls2 }}"><a href="/user/setting/{{ user.id }}">设置</a></li>
 
                 {% if user.role == 1 %}
                 <li><a href="/board">板块管理</a></li>

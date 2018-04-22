@@ -2,6 +2,7 @@ const express = require('express')
 
 const Board = require('../models/board')
 const Model = Board
+const Store = require('../models/store')
 const { log } = require('../utils')
 const {
     currentUser,
@@ -52,7 +53,10 @@ main.get('/new', async (request, response) => {
 
 main.post('/add', async (request, response) => {
     const form = request.body
-    const m = Model.create(form)
+    const m = await Model.create(form)
+    const s = Store.create(form, {
+        board_id: m.id,
+    })
     response.redirect('/board')
 })
 
