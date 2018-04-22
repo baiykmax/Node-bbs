@@ -7,10 +7,13 @@ const {
     BaseSchema,
 } = require('./main')
 
+const Schema = mongoose.Schema;
+
 const ReplySchema =  BaseSchema.extend({
     content: String,
     topic_id: String,
     user_id: String,
+    ups: [Schema.Types.ObjectId],
 })
 
 class ReplyStore extends Model {

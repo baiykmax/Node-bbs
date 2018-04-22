@@ -77,8 +77,8 @@ const registerRoutes = () => {
     const { board } = require('./routes/board')
     const { mail } = require('./routes/mail')
     const searcher = require('./routes/search')
-    const apiTopic = require('./api/topic')
     const apiUser= require('./api/user')
+    const apiReply= require('./api/reply')
     // 注册路由
     app.use('/', index)
     app.use('/board', board)
@@ -88,7 +88,7 @@ const registerRoutes = () => {
     app.use('/mail', mail)
     app.use('/search', searcher)
     app.use('/api/user', apiUser)
-    app.use('/api/topic', apiTopic)
+    app.use('/api/reply', apiReply)
 
     // 添加 404 和 500 的处理页面
     app.use((request, response, next) => {

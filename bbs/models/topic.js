@@ -21,10 +21,6 @@ const TopicSchema =  BaseSchema.extend({
         type: Number,
         default: Date.now(),
     },
-    up_users: {
-        type: Array,
-        default: [],
-    },
 })
 
 class TopicStore extends Model {

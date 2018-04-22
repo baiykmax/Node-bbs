@@ -26,7 +26,7 @@ const topicDataList = async function (arr, keyList) {
 }
 
 const topicPagination = async function (currentPage, board_id) {
-    const limit = 5
+    const limit = 10
     const offset = currentPage - 1 > 0 ? currentPage - 1 : 0
     const ms = await Topic.allList(board_id, offset, limit)
     const ds = ['owner', 'lastReplyUser', 'board', 'replies']

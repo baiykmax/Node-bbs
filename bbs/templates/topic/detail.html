@@ -13,7 +13,7 @@
         <div class='panel'>
 
             <div class='header'>
-                <span class='col_fade'>个人信息</span>
+                <span class='col_fade'>作者信息</span>
             </div>
             <div class='inner'>
                 <div class='user_card'>
@@ -124,7 +124,7 @@
             </span>
             </div>
             {% for r in topicReplies %}
-            <div class='cell reply_area reply_item'>
+            <div class='cell reply_area reply_item' reply_id="{{ r.id }}">
                 <div class='author_content'>
                     <a href="/user/{{ r.user.username }}" class="user_avatar">
                         <img src="/user/avatar/{{ r.user.avatar }}?v=4&amp;s=120"
@@ -143,7 +143,7 @@
                         <i class="fa up_btn
                           fa-thumbs-o-up" title="喜欢"></i>
                         <span class="up-count">
-                            17
+                            {{ r.ups.length }}
                         </span>
                     </span>
                     </div>
@@ -173,5 +173,30 @@
     var md = new markdownit();
     var content = document.querySelector('.markdown-text').innerHTML;
     document.querySelector('.topic_content').innerHTML = md.render(content)
+    //
+    $('.up_btn').click(function (e) {
+        var $this = $(this);
+        var replyId = $this.closest('.reply_area').attr('reply_id');
+        $.ajax({
+            url: '/api/reply/up/' + replyId,
+            method: 'POST',
+        }).done(function (data) {
+            if (data.success) {
+                $this.removeClass('invisible');
+                var currentCount = Number($this.next('.up-count').text().trim()) || 0;
+                if (data.action === 'up') {
+                    $this.next('.up-count').text(currentCount + 1);
+                    $this.addClass('uped');
+                } else {
+                    if (data.action === 'down') {
+                        $this.next('.up-count').text(currentCount - 1);
+                        $this.removeClass('uped');
+                    }
+                }
+            } else {
+                alert(data.message);
+            }
+        })
+    });
 </script>
 {% endblock %}

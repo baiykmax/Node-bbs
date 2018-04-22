@@ -43,6 +43,7 @@ class Model extends mongoose.Model {
         const query = {
             [key]: value,
         }
+        let o = parseInt(offset)
         let l = parseInt(limit)
         let o = parseInt(offset) * l
         return super.find(query).skip(o).limit(l).exec()
