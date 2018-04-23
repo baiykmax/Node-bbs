@@ -45,8 +45,8 @@ class Model extends mongoose.Model {
         }
         let o = parseInt(offset)
         let l = parseInt(limit)
-        let o = parseInt(offset) * l
-        return super.find(query).skip(o).limit(l).exec()
+        let ol = parseInt(offset) * l
+        return super.find(query).skip(ol).limit(l).exec()
     }
 
     static async findBy(key, value) {
