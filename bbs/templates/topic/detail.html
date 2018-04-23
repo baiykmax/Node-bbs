@@ -78,9 +78,20 @@
                 <ul class='unstyled'>
 
                     <li>
-                        <div><a class='dark topic_title' href="/topic/detail/{{ noReplyTopic.id }}"
-                                title="{{ noReplyTopic.title }}">{{ noReplyTopic.title }}</a>
+                        {% if noReplyTopic === undefined %}
+                        <div>
+                            <span class='inner'>
+                                无
+                            </span>
                         </div>
+                        {% else %}
+                        <div>
+                            <a class='dark topic_title' href="/topic/detail/{{ noReplyTopic.id }}"
+                                title="{{ noReplyTopic.title }}">
+                                {{ noReplyTopic.title }}
+                            </a>
+                        </div>
+                        {% endif %}
                     </li>
 
                 </ul>

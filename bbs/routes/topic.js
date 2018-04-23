@@ -91,6 +91,7 @@ topic.get('/detail/:id', async (request, response) => {
     const id = request.params.id
     const m = await Topic.detail(id)
     const noReplyTopic = await Topic.noReplyTopic()
+    const noRepTopic = noReplyTopic.id !== m.id ? noReplyTopic : undefined
     const owner = await m.owner()
     const latestTopic = await owner.latestTopics()
     const userLatestTopic = latestTopic.id !== m.id ? latestTopic : undefined
@@ -111,7 +112,7 @@ topic.get('/detail/:id', async (request, response) => {
         topic: m,
         topicReplies: topicReplies,
         latestTopic: userLatestTopic,
-        noReplyTopic: noReplyTopic,
+        noReplyTopic: noRepTopic,
     }
     htmlResponse(response, 'topic/detail.html', args)
 })
