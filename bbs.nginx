@@ -1,7 +1,8 @@
 server {
     listen 80;
     location /static {
-        alias /var/www/pro/zoye/bbs/static;
+        alias /var/www/Node-bbs/bbs/static;
+        alias /var/www/Node-bbs/bbs/uploads;
     }
     location / {
         proxy_pass http://0.0.0.0:2000;

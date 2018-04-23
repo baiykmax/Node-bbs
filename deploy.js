@@ -27,16 +27,13 @@ Shell 设置
 软件安装
 ====
 安装 git nginx
-`apt-get install git nginx`
+`sudo apt-get install git nginx`
 
 配置 nodeSource 仓库
     `curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -`
 
 配置之后就可以安装最新的 nodejs
     `sudo apt-get install -y nodejs`
-
-安装 redis 的命令
-sudo apt-get install redis-server
 
 ubuntu 安装 mongodb 的命令
 注意, 安装 mongodb 可能需要花费比较久的时间
@@ -55,6 +52,8 @@ sudo service mongod start
 配置 robomongo 3t ssh tunnel
 把服务器上 /etc/ssh/sshd_config 文件的最后一行改成
 KexAlgorithms diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha256,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group1-sha1,curve25519-sha256@libssh.org
+重启 ssh
+sudo apt-get update
 
 安装 yarn
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -71,8 +70,7 @@ sudo apt-get update && sudo apt-get install yarn
     `yarn global add pm2`
 
 配置 nginx
-    `ln -s /var/www/zoye/weibo/weibo.nginx /etc/nginx/sites-enabled/weibo`
-    `ln -s /var/www/pro/zoye/bbs/bbs.nginx /etc/nginx/sites-enabled/bbs`
+    `ln -s /var/www/Node-bbs/bbs/bbs.nginx /etc/nginx/sites-enabled/bbs`
 
 列出 nginx/sites-enabled 下面的文件
     `ls -l /etc/nginx/sites-enabled/`
@@ -100,7 +98,7 @@ pm2 日志
 // ===
 // 服务器中文编码问题
 // ===
-nano /etc/environment
+sudo nano /etc/environment
 // 加入下面的内容, 保存退出
 LC_CTYPE="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
