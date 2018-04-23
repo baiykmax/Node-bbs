@@ -83,6 +83,7 @@ topic.get('/', async (request, response) => {
         frontPage: frontPage,
         nextPage: nextPage,
     }
+    
     htmlResponse(response, 'topic/index.html', args)
 })
 
